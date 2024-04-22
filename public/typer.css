@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+#typer{
+    line-height: 35px;
+    outline: 0;
+}
+#typer:focus #words{
+    filter: blur(0);
+}
+
+#words{
+    font-family: 'Roboto Mono', monospace;
+    filter: blur(5px);
+    color: dimgrey;
+}
+
+.word{
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.letter.correct{
+    color: var(--bs-white);
+}
+
+.letter.incorrect{
+    color: var(--bs-danger);
+}
+
+@keyframes blink {
+    0%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+#cursor{
+    display: none;
+    width: 2px;
+    height: 1.3rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: blink .8s infinite;
+}
+#typer:focus #cursor{
+    display: block;
+}
+#typer:not(:focus) #cursor{
+    display: none;
+}
+
+#typer.over #words{
+    opacity: .5;
+    filter: blur(0px);
+}
+
+#typer.over:focus #cursor{
+    display: none;
+}

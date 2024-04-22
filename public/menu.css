@@ -1,0 +1,11 @@
+#punctuations, #numbers, .time-option, .word-option{
+    cursor: pointer;
+}
+
+#mistakes{
+    display: none;
+}
+
+#punctuations, #numbers{
+    display: none;
+}
