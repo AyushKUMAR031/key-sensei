@@ -2,14 +2,13 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-// const bodyParser = require('body-parser');
-
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const port = 8081;
 
-// Connect db
-mongoose.connect("mongodb+srv://akayofficialteam:QJoXs8s4NAdH0nwF@cluster0.osqoliu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+// Connect db using .env
+mongoose.connect(process.env.MONGODB_URL)
     .then(() => {
         console.log("Connection successful");
     })
@@ -17,7 +16,7 @@ mongoose.connect("mongodb+srv://akayofficialteam:QJoXs8s4NAdH0nwF@cluster0.osqol
         console.log(`No connection ${err}`);
     })
 
-// Define Users Schema
+// Define Users Schemas
 const userSchema = new mongoose.Schema({
     FirstName: {
         type: String,
@@ -45,6 +44,8 @@ const userSchema = new mongoose.Schema({
     }
 
 });
+// MVC imports
+const userController = require('./controllers/userController');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -67,43 +68,12 @@ app.get('/signup', (req, res) => {
 });
 
 // Route to handle signup form submission
-app.post('/signup', async (req, res) => {
-    const data = {
-        FirstName: req.body.FirstName,
-        LastName: req.body.LastName,
-        username: req.body.username,
-        password: req.body.password,
-        age: req.body.age,
-        email: req.body.email
-    }
-
-    await collection.insertMany([data])
-
-    res.sendFile(path.join(__dirname, 'public/index.html'));
-});
+// Signup route
+app.post('/signup', userController.signup);
 
 // Route to handle login form submission
-app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-
-    try {
-        const user = await collection.findOne({ username });
-
-        if (user) {
-            if (user.password === password) {
-                res.sendFile(path.join(__dirname, 'public/homepage.html'));
-            } else {
-                res.send("Incorrect password.");
-            }
-        } else {
-            await collection.create({ username, password });
-            res.send("User created successfully.");
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        res.sendFile(path.join(__dirname, 'public/index.html'));
-    }
-});
+// Login route
+app.post('/login', userController.login);
 
 app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
