@@ -5,6 +5,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+console.log('Mongo URL:', process.env.MONGODB_URL ? 'Loaded' : 'Not loaded');
+
 const port = 8081;
 
 // Connect db using .env
@@ -16,7 +18,7 @@ mongoose.connect(process.env.MONGODB_URL)
         console.log(`No connection ${err}`);
     })
 
-// Define Users Schemas
+// Define Users Schema
 const userSchema = new mongoose.Schema({
     FirstName: {
         type: String,
