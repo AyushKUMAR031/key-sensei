@@ -41,6 +41,9 @@ function newTest() {
     window.gameStart = null;
 
     gameTime = time * 1000;
+
+     // Reset WPM display
+    document.getElementById('speed-info').innerHTML = '';
 }
 
 function getWpm() {
