@@ -1,13 +1,15 @@
 const User = require('../models/user');
+const Score = require('../models/score');
 const path = require('path');
 
 exports.signup = async (req, res) => {
     const { FirstName, LastName, username, password, age, email } = req.body;
     try {
-        await User.create({ FirstName, LastName, username, password, age, email });
-        res.sendFile(path.join(__dirname, '../public/index.html'));
+        const user = await User.create({ FirstName, LastName, username, password, age, email });
+        req.session.userId = user._id;
+        res.status(201).json({ success: true, message: 'Account created successfully' });
     } catch (error) {
-        res.status(400).send('Signup failed. ' + error.message);
+        res.status(400).json({ success: false, message: 'Signup failed. ' + error.message });
     }
 };
 
@@ -17,14 +19,32 @@ exports.login = async (req, res) => {
         const user = await User.findOne({ username });
         if (user) {
             if (user.password === password) {
-                res.sendFile(path.join(__dirname, '../public/homepage.html'));
+                req.session.userId = user._id;
+                res.status(200).json({ success: true, message: 'Login successful' });
             } else {
-                res.send('Incorrect password.');
+                res.status(401).json({ success: false, message: 'Incorrect password.' });
             }
         } else {
-            res.send('User not found.');
+            res.status(404).json({ success: false, message: 'User not found.' });
         }
     } catch (error) {
-        res.status(400).send('Login failed. ' + error.message);
+        res.status(400).json({ success: false, message: 'Login failed. ' + error.message });
+    }
+};
+
+exports.getProfile = async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).json({ success: false, message: 'Not authenticated' });
+        }
+        const user = await User.findById(req.session.userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found.' });
+        }
+
+        const scores = await Score.find({ user: user._id }).sort({ timestamp: -1 });
+        res.status(200).json({ success: true, user, scores });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error fetching profile data. ' + error.message });
     }
 };

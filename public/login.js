@@ -1,17 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const signupForm = document.getElementById('signupForm');
+    const loginForm = document.getElementById('loginForm');
 
-    signupForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault(); 
 
         const formData = {};
-        for (const input of signupForm.elements) {
+        for (const input of loginForm.elements) {
             if (input.name) {
                 formData[input.name] = input.value;
             }
         }
 
-        fetch('/signup', {
+        fetch('/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     text: data.message,
                     duration: 3000,
                     close: true,
-                    gravity: "bottom",
-                    position: "right",
+                    gravity: "bottom", 
+                    position: "right", 
                     backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
                 }).showToast();
                 setTimeout(() => {
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             Toastify({
-                text: error.message || "Signup failed. Please try again.",
+                text: error.message || "Login failed. Please check your credentials.",
                 duration: 3000,
                 close: true,
                 gravity: "bottom",
