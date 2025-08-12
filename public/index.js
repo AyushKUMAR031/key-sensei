@@ -300,8 +300,21 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // Update centered rank display
                 const rankElement = document.getElementById('nav-user-rank');
-                rankElement.innerHTML = `<span class="username">${data.username}</span> | Rank: ${data.rank}`;
+                rankElement.innerHTML = `<span class="username">${data.username}</span> | Rank: #${data.rank}`;
+
+                // Update dropdown toggle icon
+                const toggle = document.getElementById('user-dropdown-toggle');
+                let iconHtml = '';
+                if (data.profileIcon.startsWith('data:image/')) {
+                    // It's a Base64 image
+                    iconHtml = `<img src="${data.profileIcon}" class="rounded-circle" style="width: 28px; height: 28px; object-fit: cover;">`;
+                } else {
+                    // It's a Bootstrap icon class
+                    iconHtml = `<i class="${data.profileIcon} fs-4"></i>`;
+                }
+                toggle.innerHTML = iconHtml; // Replace the icon
             }
         })
         .catch(error => console.error('Error fetching nav info:', error));

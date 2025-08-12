@@ -159,7 +159,8 @@ exports.getNavInfo = async (req, res) => {
         res.status(200).json({ 
             success: true, 
             username: user.username,
-            rank: rank > 0 ? (rank > 1000 ? '1000+' : rank) : "N/A"
+            rank: rank > 0 ? (rank > 1000 ? '1000+' : rank) : "N/A",
+            profileIcon: user.profileIcon
         });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error fetching nav info. ' + error.message });
