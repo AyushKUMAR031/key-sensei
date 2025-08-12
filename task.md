@@ -1,0 +1,6 @@
+- [x] now see help me to complete the feature of the score table , highest score of the user in the profile page.
+- [x] adding something related to profile icon for users.
+- [ ] work on global top 3 highest scores and scorers with a leaderboard section at the top in the dropdown and show the rank table of top 100 user.
+- [ ] if the current user is in top 100 leaderboard highlight its row and do pagination to show top 100 users (if there) in 10 pages (per page 10 row) inside the leaderboard page. 
+- [ ] show a tag of user rank in the navbar with the username and add the user rank data in profile section also.
+- [ ] update the theme and ui.

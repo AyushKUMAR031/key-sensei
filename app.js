@@ -22,8 +22,8 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const auth = require('./middleware/auth');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: false, limit: '1mb' }));
 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'a secret key',
@@ -76,6 +76,10 @@ app.post('/signup', userController.signup);
 app.post('/login', userController.login);
 
 app.get('/api/profile', userController.getProfile);
+
+app.post('/api/scores', userController.saveScore);
+
+app.post('/api/profile/icon', auth, userController.updateProfileIcon);
 
 app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);

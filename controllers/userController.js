@@ -48,3 +48,40 @@ exports.getProfile = async (req, res) => {
         res.status(500).json({ success: false, message: 'Error fetching profile data. ' + error.message });
     }
 };
+
+exports.saveScore = async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).json({ success: false, message: 'Not authenticated' });
+        }
+        const { wpm, accuracy } = req.body;
+        const score = await Score.create({ user: req.session.userId, wpm, accuracy });
+        res.status(201).json({ success: true, message: 'Score saved successfully', score });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error saving score. ' + error.message });
+    }
+};
+
+exports.updateProfileIcon = async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).json({ success: false, message: 'Not authenticated' });
+        }
+        const { icon } = req.body;
+        if (!icon) {
+            return res.status(400).json({ success: false, message: 'No icon data provided.' });
+        }
+
+        const user = await User.findById(req.session.userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found.' });
+        }
+
+        user.profileIcon = icon;
+        await user.save();
+
+        res.status(200).json({ success: true, message: 'Profile icon updated successfully', profileIcon: user.profileIcon });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error updating profile icon. ' + error.message });
+    }
+};

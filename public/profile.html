@@ -41,7 +41,12 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4 text-center">
-                    <i class="bi bi-person-circle" style="font-size: 10rem;"></i>
+                    <div id="profile-icon-container" style="font-size: 10rem; width: 150px; height: 150px; margin: auto; display: flex; align-items: center; justify-content: center;">
+                        
+                    </div>
+                    <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#avatarModal">
+                        Change Avatar
+                    </button>
                 </div>
                 <div class="col-md-8">
                     <h2 id="name"></h2>
@@ -50,6 +55,36 @@
                     <hr>
                     <h3>Highest Score</h3>
                     <p class="display-4" id="highest-score"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+
+    <!-- Avatar Modal -->
+    <div class="modal fade" id="avatarModal" tabindex="-1" aria-labelledby="avatarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="avatarModalLabel">Change Avatar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="avatar-upload-form">
+                        <div class="mb-3">
+                            <label for="avatar-input" class="form-label">Select image (max 100KB)</label>
+                            <input class="form-control" type="file" id="avatar-input" name="avatar" accept="image/*">
+                            <div class="invalid-feedback">
+                                File is too large. Please select a file smaller than 100KB.
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-avatar">Upload</button>
                 </div>
             </div>
         </div>

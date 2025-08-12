@@ -57,14 +57,41 @@ function getWpm() {
         const correctLetters = letters.filter(letter => letter.className.includes('correct'));
         return incorrectLetters.length === 0 && correctLetters.length === letters.length;
     });
-    return correctWords.length / gameTime * 60000;
+    
+    const correctChars = correctWords.reduce((total, word) => total + word.innerText.length, 0);
+    const totalChars = typedWords.reduce((total, word) => total + word.innerText.length, 0);
+    const accuracy = totalChars > 0 ? (correctChars / totalChars) * 100 : 0;
+
+    return {
+        wpm: correctWords.length / gameTime * 60000,
+        accuracy: accuracy.toFixed(2)
+    };
 }
 function testOver() {
     clearInterval(window.timer);
     addClass(document.getElementById('typer'), 'over');
     addClass(document.getElementById('words'), 'opacity-25')
-    console.log(getWpm());
-    document.getElementById('speed-info').innerHTML = `${getWpm()}` + '';
+    const { wpm, accuracy } = getWpm();
+    document.getElementById('speed-info').innerHTML = `${wpm.toFixed(0)} WPM, ${accuracy}% Accuracy`;
+
+    fetch('/api/scores', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ wpm: wpm.toFixed(0), accuracy })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Score saved successfully');
+        } else {
+            console.error('Failed to save score:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error saving score:', error);
+    });
 }
 
 document.getElementById('typer').addEventListener('keyup', event => {
