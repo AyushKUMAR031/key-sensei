@@ -101,19 +101,21 @@ exports.getLeaderboard = async (req, res) => {
         const top3Scores = await Score.find({})
             .sort({ wpm: -1 })
             .limit(3)
-            .populate('user', 'username');
+            .populate('user', 'username profileIcon');
 
         // Aggregation query for top 100 unique users by their best score
         const leaderboardScores = await Score.aggregate([
             {
+                $sort: { wpm: -1 }
+            },
+            {
                 $group: {
                     _id: "$user",
-                    wpm: { $max: "$wpm" },
+                    wpm: { $first: "$wpm" },
                     accuracy: { $first: "$accuracy" },
                     timestamp: { $first: "$timestamp" }
                 }
             },
-            { $sort: { wpm: -1 } },
             { $limit: 100 },
             {
                 $lookup: {
@@ -125,6 +127,15 @@ exports.getLeaderboard = async (req, res) => {
             },
             {
                 $unwind: "$user"
+            },
+            {
+                $project: {
+                    "user.password": 0, 
+                    "user.email": 0,
+                    "user.age": 0,
+                    "user.FirstName": 0,
+                    "user.LastName": 0
+                }
             }
         ]);
 

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <th scope="row">${rank}</th>
                 <td>
                     <div class="d-flex align-items-center">
-                        <img src="${score.user.profileIcon}" class="rounded-circle me-2" width="30" height="30" alt="User">
+                        <img src="${score.user.profileIcon || 'assets/logo.png'}" class="rounded-circle me-2" width="30" height="30" alt="User">
                         <span>${score.user.username}</span>
                     </div>
                 </td>
@@ -67,18 +67,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const topScoresContainer = document.getElementById('top-scores');
                 topScoresContainer.innerHTML = ''; 
 
-                const medals = ['gold', 'silver', 'bronze'];
+                const borderClasses = ['gold-border', 'silver-border', 'bronze-border'];
                 data.top3Scores.forEach((score, index) => {
-                    const medal = medals[index];
+                    const borderClass = borderClasses[index];
                     const card = `
                         <div class="col-md-4">
-                            <div class="card text-center top-scorer ${medal}">
+                            <div class="card text-center top-scorer">
                                 <div class="card-body">
-                                    <img src="${score.user.profileIcon}" class="rounded-circle mb-3" width="80" height="80" alt="${score.user.username}">
+                                    <img src="${score.user.profileIcon || 'assets/logo.png'}" class="rounded-circle mb-3 top-scorer-avatar ${borderClass}" width="100" height="100" alt="${score.user.username}">
                                     <h5 class="card-title">${score.user.username}</h5>
                                     <p class="card-text display-4">${score.wpm} WPM</p>
                                     <p class="card-text"><small class="text-muted">${score.accuracy}% Accuracy</small></p>
-                                    <span class="badge bg-${medal === 'gold' ? 'warning' : (medal === 'silver' ? 'secondary' : 'danger')}">${index + 1}</span>
                                 </div>
                             </div>
                         </div>
