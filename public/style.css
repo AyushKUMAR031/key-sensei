@@ -98,3 +98,30 @@
 #punctuations, #numbers{
     display: none;
 }
+
+.nav-item-centered {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Centered User Rank in Navbar */
+#nav-user-rank {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #0d6efd; /* Bootstrap primary blue */
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease-in-out;
+}
+
+#nav-user-rank .username {
+    color: #6c757d; /* Bootstrap secondary gray */
+}
+
+#nav-user-rank:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}

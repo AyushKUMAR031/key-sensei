@@ -43,7 +43,16 @@ exports.getProfile = async (req, res) => {
         }
 
         const scores = await Score.find({ user: user._id }).sort({ timestamp: -1 });
-        res.status(200).json({ success: true, user, scores });
+
+        // Calculate user rank
+        const allUsersScores = await Score.aggregate([
+            { $group: { _id: "$user", maxWpm: { $max: "$wpm" } } },
+            { $sort: { maxWpm: -1 } }
+        ]);
+
+        const rank = allUsersScores.findIndex(score => score._id.equals(user._id)) + 1;
+
+        res.status(200).json({ success: true, user, scores, rank: rank > 0 ? rank : "N/A" });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error fetching profile data. ' + error.message });
     }
@@ -127,5 +136,32 @@ exports.getLeaderboard = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error fetching leaderboard data. ' + error.message });
+    }
+};
+
+exports.getNavInfo = async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).json({ success: false, message: 'Not authenticated' });
+        }
+        const user = await User.findById(req.session.userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found.' });
+        }
+
+        const allUsersScores = await Score.aggregate([
+            { $group: { _id: "$user", maxWpm: { $max: "$wpm" } } },
+            { $sort: { maxWpm: -1 } }
+        ]);
+
+        const rank = allUsersScores.findIndex(score => score._id.equals(user._id)) + 1;
+
+        res.status(200).json({ 
+            success: true, 
+            username: user.username,
+            rank: rank > 0 ? (rank > 1000 ? '1000+' : rank) : "N/A"
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error fetching nav info. ' + error.message });
     }
 };

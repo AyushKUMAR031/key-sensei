@@ -87,6 +87,8 @@ app.post('/api/profile/icon', auth, userController.updateProfileIcon);
 
 app.get('/api/leaderboard', auth, userController.getLeaderboard);
 
+app.get('/api/user/nav-info', auth, userController.getNavInfo);
+
 app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
 });

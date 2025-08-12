@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('email').textContent = user.email;
                 displayProfileIcon(user.profileIcon);
 
+                const rank = data.rank > 1000 ? '1000+' : data.rank;
+                document.getElementById('rank').textContent = rank;
+
                 if (scores.length > 0) {
                     const highestScore = scores.reduce((max, score) => max.wpm > score.wpm ? max : score);
                     document.getElementById('highest-score').textContent = `${highestScore.wpm} WPM`;

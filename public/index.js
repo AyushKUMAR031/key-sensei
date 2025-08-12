@@ -294,4 +294,15 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '/tutorial';
         });
     }
+
+    // Fetch and display user rank in navbar
+    fetch('/api/user/nav-info')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const rankElement = document.getElementById('nav-user-rank');
+                rankElement.innerHTML = `<span class="username">${data.username}</span> | Rank: ${data.rank}`;
+            }
+        })
+        .catch(error => console.error('Error fetching nav info:', error));
 });
