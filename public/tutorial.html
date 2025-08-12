@@ -2,18 +2,53 @@
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
-    <title>KeySensei |Tutorial</title>
+    <title>KeySensei | Tutorial</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="assets/logo.png" type="image/png" />
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .tutorial-header {
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-radius: .75rem;
+        }
+        .tutorial-section {
+            background-color: rgba(255,255,255,0.05);
+            border: none;
+            border-radius: .75rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform .2s;
+        }
+        .tutorial-section:hover {
+            transform: translateY(-5px);
+        }
+        .video-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            border-radius: .75rem;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="/home">
                 <i class="bi bi-keyboard"></i>
@@ -35,24 +70,30 @@
     </nav>
 </header>
 <main class="container mt-5">
-    <div class="card">
-        <div class="card-header">
-            <h1 class="card-title text-center">Typing Tutorial</h1>
-        </div>
-        <div class="card-body">
-            <h2>The Home Row</h2>
-            <p>The home row is the most important row on the keyboard. Your fingers should always return to the home row after typing any other key. The home row keys for your left hand are A, S, D, and F. For your right hand, they are J, K, L, and the semicolon (;).</p>
-            <p>Place your index fingers on the F and J keys. You should feel a small bump on each of these keys. This will help you find the home row without looking at the keyboard.</p>
+    <div class="tutorial-header text-center">
+        <h1>Typing Tutorial</h1>
+        <p class="lead">Master the art of touch typing with our guided lessons.</p>
+    </div>
 
-            <h2>Proper Posture</h2>
-            <p>Sit up straight with your feet flat on the floor. Your wrists should be straight and not resting on the keyboard or desk. Keep your elbows at a 90-degree angle.</p>
+    <div class="tutorial-section">
+        <h2><i class="bi bi-hand-index-thumb"></i> The Home Row</h2>
+        <p>The home row is your anchor on the keyboard. Your fingers should always return here after striking any key. For your left hand, the home row keys are <strong>A, S, D, and F</strong>. For your right hand, they are <strong>J, K, L, and ;</strong>.</p>
+        <p>Feel for the small bumps on the <strong>F</strong> and <strong>J</strong> keys with your index fingers. These will help you find your position without looking.</p>
+    </div>
 
-            <h2>Practice, Practice, Practice</h2>
-            <p>The only way to get better at typing is to practice. Start by typing slowly and accurately. Speed will come with time. Try to type for at least 15 minutes every day.</p>
+    <div class="tutorial-section">
+        <h2><i class="bi bi-person-standing"></i> Proper Posture</h2>
+        <p>Good posture prevents strain and improves speed. Sit up straight with your feet flat on the floor. Your wrists should be in a neutral position, not bent or resting on any surface. Keep your elbows bent at a comfortable 90-degree angle.</p>
+    </div>
 
-            <div class="text-center mt-5">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/watch?v=G5bEGfr9Avo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
+    <div class="tutorial-section">
+        <h2><i class="bi bi-graph-up-arrow"></i> Practice Makes Perfect</h2>
+        <p>Consistency is key to improving your typing skills. Aim for accuracy first, then focus on speed. Dedicate at least 15 minutes each day to practice, and you'll see significant improvement over time.</p>
+    </div>
+
+    <div class="text-center mt-5">
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/G5bEGfr9Avo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
     </div>
 </main>

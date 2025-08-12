@@ -16,11 +16,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const rank = start + index + 1;
             const row = document.createElement('tr');
             if (score.user._id === currentUserId) {
-                row.classList.add('table-success'); // Highlight current user
+                row.classList.add('table-primary'); // Highlight current user
             }
             row.innerHTML = `
                 <th scope="row">${rank}</th>
-                <td>${score.user.username}</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <img src="${score.user.profileIcon}" class="rounded-circle me-2" width="30" height="30" alt="User">
+                        <span>${score.user.username}</span>
+                    </div>
+                </td>
                 <td>${score.wpm}</td>
                 <td>${score.accuracy}%</td>
                 <td>${new Date(score.timestamp).toLocaleDateString()}</td>
@@ -45,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 displayLeaderboard(i);
                 
-                // Update active class
                 document.querySelector('.pagination .active').classList.remove('active');
                 li.classList.add('active');
             });
@@ -61,18 +65,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 allScores = data.leaderboardScores;
                 currentUserId = data.currentUserId;
                 const topScoresContainer = document.getElementById('top-scores');
-                topScoresContainer.innerHTML = ''; // Clear existing top scores
+                topScoresContainer.innerHTML = ''; 
 
-                // Display Top 3
+                const medals = ['gold', 'silver', 'bronze'];
                 data.top3Scores.forEach((score, index) => {
-                    const medal = ['🥇', '🥈', '🥉'][index];
+                    const medal = medals[index];
                     const card = `
                         <div class="col-md-4">
-                            <div class="card text-center">
+                            <div class="card text-center top-scorer ${medal}">
                                 <div class="card-body">
-                                    <h5 class="card-title">${medal} ${score.user.username}</h5>
+                                    <img src="${score.user.profileIcon}" class="rounded-circle mb-3" width="80" height="80" alt="${score.user.username}">
+                                    <h5 class="card-title">${score.user.username}</h5>
                                     <p class="card-text display-4">${score.wpm} WPM</p>
                                     <p class="card-text"><small class="text-muted">${score.accuracy}% Accuracy</small></p>
+                                    <span class="badge bg-${medal === 'gold' ? 'warning' : (medal === 'silver' ? 'secondary' : 'danger')}">${index + 1}</span>
                                 </div>
                             </div>
                         </div>

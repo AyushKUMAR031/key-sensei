@@ -1,22 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
-    function displayProfileIcon(iconData) {
-        const container = document.getElementById('profile-icon-container');
+    function displayProfileIcon(iconData, container) {
         container.innerHTML = ''; // Clear previous icon
 
-        if (iconData.startsWith('data:image/')) {
-            const img = document.createElement('img');
+        const img = document.createElement('img');
+        img.alt = 'User Avatar';
+        img.className = 'img-fluid rounded-circle profile-avatar';
+        
+        if (iconData && iconData.startsWith('data:image/')) {
             img.src = iconData;
-            img.alt = 'User Avatar';
-            img.className = 'img-fluid rounded-circle';
-            img.style.width = '150px';
-            img.style.height = '150px';
-            img.style.objectFit = 'cover';
-            container.appendChild(img);
         } else {
-            const icon = document.createElement('i');
-            icon.className = `bi ${iconData}`;
-            container.appendChild(icon);
+            // Fallback to a default icon if no custom avatar is set
+            img.src = 'assets/logo.png'; 
         }
+        container.appendChild(img);
     }
 
     fetch('/api/profile')
@@ -25,11 +21,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 const user = data.user;
                 const scores = data.scores;
+                const profileIconContainer = document.getElementById('profile-icon-container');
 
                 document.getElementById('name').textContent = `${user.FirstName} ${user.LastName}`;
                 document.getElementById('username').textContent = `@${user.username}`;
                 document.getElementById('email').textContent = user.email;
-                displayProfileIcon(user.profileIcon);
+                displayProfileIcon(user.profileIcon, profileIconContainer);
 
                 const rank = data.rank > 1000 ? '1000+' : data.rank;
                 document.getElementById('rank').textContent = rank;
@@ -39,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('highest-score').textContent = `${highestScore.wpm} WPM`;
 
                     const scoreHistory = document.getElementById('score-history');
-                    scores.forEach(score => {
+                    scores.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).forEach(score => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${score.wpm}</td>
@@ -100,7 +97,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    displayProfileIcon(data.profileIcon);
+                    const profileIconContainer = document.getElementById('profile-icon-container');
+                    displayProfileIcon(data.profileIcon, profileIconContainer);
                     const modal = bootstrap.Modal.getInstance(document.getElementById('avatarModal'));
                     modal.hide();
                 } else {
