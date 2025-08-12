@@ -107,21 +107,28 @@
 
 /* Centered User Rank in Navbar */
 #nav-user-rank {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #0d6efd; /* Bootstrap primary blue */
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #5f8728;
+    background-color: rgba(13, 110, 253, 0.15);
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(2, 21, 48, 0.4);
     transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 #nav-user-rank .username {
-    color: #6c757d; /* Bootstrap secondary gray */
+    color: #f0f0f0;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.7);
 }
 
 #nav-user-rank:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: rgba(15, 72, 92, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(3, 28, 65, 0.4);
+    cursor: default;
 }

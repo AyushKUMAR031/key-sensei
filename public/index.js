@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 // Update centered rank display
                 const rankElement = document.getElementById('nav-user-rank');
-                rankElement.innerHTML = `<span class="username">${data.username}</span> | Rank: #${data.rank}`;
+                rankElement.innerHTML = `<span class="username">${data.username}</span> | Rank: ${data.rank}`;
 
                 // Update dropdown toggle icon
                 const toggle = document.getElementById('user-dropdown-toggle');
