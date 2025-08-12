@@ -12,4 +12,3 @@
 - [x] if the current user is in top 100 leaderboard highlight its row and do pagination to show top 100 users (if there) in 10 pages (per page 10 row) inside the leaderboard page. 
 - [x] show a tag of user rank in the navbar with the username and add the user rank data in profile section also, if the rank is greater than 1000 , then show rank 1000+.
 - [ ] update the theme and ui.
-- [ ] typer error.
