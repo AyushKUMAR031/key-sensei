@@ -29,13 +29,23 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'a secret key',
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URL })
+    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URL }),
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        secure: false, // Set to true in production (HTTPS)
+        sameSite: 'lax'
+    }
 }));
 
 
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 
 app.get('/', (req, res) => {
+    if (req.session.userId) {
+        // Already logged in → send them to home
+        return res.redirect('/home');
+    }
+    // Not logged in → show welcome page
     res.sendFile(path.join(__dirname, 'public/welcome.html'));
 });
 
