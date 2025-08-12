@@ -59,6 +59,10 @@ app.get('/tutorial', auth, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/tutorial.html'));
 });
 
+app.get('/leaderboard', auth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/leaderboard.html'));
+});
+
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
@@ -80,6 +84,8 @@ app.get('/api/profile', userController.getProfile);
 app.post('/api/scores', userController.saveScore);
 
 app.post('/api/profile/icon', auth, userController.updateProfileIcon);
+
+app.get('/api/leaderboard', auth, userController.getLeaderboard);
 
 app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);

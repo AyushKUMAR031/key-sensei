@@ -85,3 +85,47 @@ exports.updateProfileIcon = async (req, res) => {
         res.status(500).json({ success: false, message: 'Error updating profile icon. ' + error.message });
     }
 };
+
+exports.getLeaderboard = async (req, res) => {
+    try {
+        // Query for the absolute top 3 scores
+        const top3Scores = await Score.find({})
+            .sort({ wpm: -1 })
+            .limit(3)
+            .populate('user', 'username');
+
+        // Aggregation query for top 100 unique users by their best score
+        const leaderboardScores = await Score.aggregate([
+            {
+                $group: {
+                    _id: "$user",
+                    wpm: { $max: "$wpm" },
+                    accuracy: { $first: "$accuracy" },
+                    timestamp: { $first: "$timestamp" }
+                }
+            },
+            { $sort: { wpm: -1 } },
+            { $limit: 100 },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "user"
+                }
+            },
+            {
+                $unwind: "$user"
+            }
+        ]);
+
+        res.status(200).json({ 
+            success: true, 
+            top3Scores, 
+            leaderboardScores, 
+            currentUserId: req.session.userId 
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error fetching leaderboard data. ' + error.message });
+    }
+};
